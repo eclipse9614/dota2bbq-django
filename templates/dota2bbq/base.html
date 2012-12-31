@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="/static/css/jquery-ui-1.9.2.custom.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <a class='brand'>Dota2 BBQ</a>
+            <ul class='nav'>
+                <li><a href="/dota2bbq/">Home</a></li>
+                <li class="divider-vertical"></li>
+                <li><a href="/dota2bbq/heroes">Heroes</a></li>
+                <li class="divider-vertical"></li>
+                <li><a href="/dota2bbq/items">Items</a></li>
+            </ul>
+            {% if username %}
+            <form class="navbar-form pull-right" id='sign_off' action='/signoff' method='post'>
+                <span class='label'>Username: {{username}}</span>
+                <button class="button btn" id='edit_btn'>Edit</button>
+                <button type="submit" class="btn">Sign Off</button>
+            </form>
+            {% else %}
+            <form class="navbar-form pull-right" id='sign_in' action='/signin' method='post'>
+                {% if login_error %}
+                    <span class='label label-important'>{{login_error}}</span>
+                {% endif %}
+                <input type="text" placeholder="Username" name='username' required>
+                <input type="password" placeholder="Password" name='password' required>
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="modal hide fade" id='result_window'>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Result</h3>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+</header>
+
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+
+<script src="/static/js/jquery-1.8.3.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="/static/js/base.js"></script>
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

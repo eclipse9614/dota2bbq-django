@@ -1,0 +1,45 @@
+{% extends "dota2bbq/base.html" %}
+{% block title %}Heroes{% endblock %}
+{% block content %}
+{% load extra_filters %}
+<div class="alert">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Reminder!</strong> Move hero icons around as your will.
+</div>
+<select id='filter_by_class'>
+    <option value='ALL'>Filter By Class</option>
+    <option value='STR'>Strength</option>
+    <option value='AGI'>Agility</option>
+    <option value='INT'>Intelligence</option>
+</select>
+<select id='filter_by_faction'>
+    <option value='ALL'>Filter By Faction</option>
+    <option value='RA'>Radient</option>
+    <option value='DI'>Dire</option>
+</select> 
+<input id='filter_by_name' type='text' placeholder='Filter By Name'>
+<select id='sort_by_name'>
+    <option value='0'>Sort By Name</option>
+    <option value='-1'>Ascending</option>
+    <option value='1'>Descending</option>
+</select> 
+<div class='hero_browse'>
+        {% for hero in heroes %}
+        <div class='hero' data-faction='ALL {{hero.faction}}' data-class='ALL {{hero.specialty}}' data-name='ALL {{hero.name|lower}}'>
+            <a href="/dota2bbq/hero/{{hero.name}}">
+                <img src="/static/images/128px-{{hero.name|lower|spaces2underscores}}.png" width="128px" height="72px">
+                <span>{{hero.Name}}</span>
+            </a>
+
+        </div>
+        {% endfor %}
+</div>
+<div id='dustbin' class='container'>
+    <h1>Drop icon here to remove it!</h1>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="/static/js/heroes.js"></script>
+{% endblock %}
