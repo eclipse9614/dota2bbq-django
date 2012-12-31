@@ -6,3 +6,4 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^dota2bbq/', include('dota2bbq.urls')),
 )
+
