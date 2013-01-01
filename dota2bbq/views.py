@@ -1,8 +1,8 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from dota2bbq.models import Hero, Item
 from django.http import HttpResponse, Http404
-
+from django.contrib.auth import authenticate, login, logout
 
 def index(request):
 	return render(request, 'dota2bbq/index.html')
@@ -26,6 +26,28 @@ def hero(request, hero_name):
             return render(request, 'dota2bbq/hero.html', entry)
     except Hero.DoesNotExist:
         raise Http404
+
+
+def signin(request):
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username = username, password = password)
+        if user and user.is_active:
+            login(request, user)
+        else:
+            request.session['login_error'] = 'wrong username or password'
+        return redirect(request.META['HTTP_REFERER']) if "HTTP_REFERER" in request.META else redirect('dota2bbq.views.index')
+    else:
+        return redirect('dota2bbq.views.index')
+
+
+def signoff(request):
+    if request.POST:
+        logout(request)
+        return redirect(request.META['HTTP_REFERER'])
+    else:
+        return redirect('dota2bbq.views.index')
 
 
 def combined_feed(request):
