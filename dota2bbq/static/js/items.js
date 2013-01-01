@@ -4,13 +4,13 @@ $(document).ready(function() {
 		hash = window.location.hash.substring(1);
 	}
 
-	$.getJSON("/ajax/items", function(data) {
+	$.getJSON("/dota2bbq/ajax/items", function(data) {
 		if(data.Result == "OK") {
 			for(var index in data.Content) {
 				var item = data.Content[index];
 
 				var tip = $(".item > img[src$='" + item.Name + ".png']")
-				.data('id', item.IID)
+				.data('id', item.ID)
 				.click(setClick).tooltip({
 					position: {
 						my: "left center",
@@ -19,7 +19,7 @@ $(document).ready(function() {
 					content: setTooltip(item)
 				});
 
-				if(hash == item.IID) {
+				if(hash == item.ID) {
 					tip
 					.css("border-color", "red")
 					.tooltip('open');
@@ -71,8 +71,8 @@ function setTooltip(data) {
 		$display_div.append($attrs_div);
 	}
 
-	if(data.Recipe !== "") {
-		var items = data.Recipe.split("/");
+	if(data.Recipe.length !== 0) {
+		var items = data.Recipe;
 		var $recipe_div = $("<div>Recipe:<br></div>");
 		for(var index in items) {
 			$recipe_div.append("<img src=\"/static/images/items/" + items[index] + ".png\" width='85px' height='64px'>");
