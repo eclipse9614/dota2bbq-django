@@ -37,24 +37,30 @@ $(document).ready(function() {
 			offset: "-20"
 		},
 		content: function(t) {
-			var hero_name = $(this).parent().data('hero');
-			var skill_index = $(this).parent().data('index');
+			var $parent = $(this).parent();
 
-			$.getJSON("/ajax/" + hero_name + "/" + skill_index, function(data) {
-				if(data.Result == "OK") {
-					data = data.Content;
-					var display = "Type: " + (function() {
-						if(data.Type == 1) {
-							return "Active" + "<br>" + "ManaCost: " + data.ManaCost + "<br>" + "Cooldown: " + data.Cooldown + "<br>";
-						} else {
-							return "Passive" + "<br>";
-						}
-					}());
-					t(display);
-				} else {
-					t("There is no information about this skill");
-				}
-			});
+			var display = "";
+			if($parent.data('type') == 'True')
+			{
+				display += "Type: Active";
+			}
+			else
+			{
+				display += "Type: Passive";
+			}
+
+
+			if($parent.data('manacost') != 'None')
+			{
+				display += ("<br>Manacost: " + $parent.data('manacost'));
+			}
+
+			if($parent.data('cooldown') != 'None')
+			{
+				display += ("<br>Cooldown: " + $parent.data('cooldown'));
+			}
+
+			return display;
 		}
 	});
 });

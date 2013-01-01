@@ -58,8 +58,9 @@ function sort() {
 		.sort(function(a, b) {
 			return cur_val * cmp($(a).data('name'), $(b).data('name'));
 		})
-		.appendTo($('.hero_browse'))
-		.show('fast');
+		.show('slow')
+		.appendTo($('.hero_browse'));
+		
 	}
 }
 

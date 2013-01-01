@@ -1,47 +1,51 @@
-{% extends "base.html" %}
-{% block title%}{{Name}}{% endblock %}
+{% extends "dota2bbq/base.html" %}
+{% block title%}{{hero.name}}{% endblock %}
 {% block content %}
     <div class="container">
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Reminder!</strong> Read full hero story by clicking the lore and view details of skills by hovering the icons
+        </div>
         <div class="hero_basic row">
             <div class="hero_card span4">
                 <table>
-                    <tr><td colspan="2" class="hero_name" id="hero_name">{{Name}}</td></tr>
-                    <tr><td colspan="2"> <img src="../static/images/{{Name}}.png" style="width: 256px; height: 144px;"></td></tr>
+                    <tr><td colspan="2" class="hero_name" id="hero_name">{{hero.name}}</td></tr>
+                    <tr><td colspan="2"> <img src="/static/images/{{hero.name}}.png" style="width: 256px; height: 144px;"></td></tr>
                     <tr>
                         <td>Faction</td>
-                        <td><span class="hero_fac">{{Faction}}</span></td>
+                        <td><span class="hero_fac">{{hero.get_faction_display}}</span></td>
                     </tr>
                     <tr>
                         <td>Primary Attribute</td>
-                        <td><span class="hero_prim">{{Class}}</span></td>
+                        <td><span class="hero_prim">{{hero.get_specialty_display}}</span></td>
                     </tr>
                 </table>
                 <table class="stat_table">
                     <tr class="hero_attr">
-                        <td><img src="../static/images/33px-Icon_Str.png" width="33" height="33" title="Strength"></td>
-                        <td><img src="../static/images/33px-Icon_Agi.png" width="33" height="33" title="Agility"></td>
-                        <td><img src="../static/images/33px-Icon_Int.png" width="33" height="33" title="Intelligence"></td>
+                        <td><img src="/static/images/33px-Icon_Str.png" width="33" height="33" title="Strength"></td>
+                        <td><img src="/static/images/33px-Icon_Agi.png" width="33" height="33" title="Agility"></td>
+                        <td><img src="/static/images/33px-Icon_Int.png" width="33" height="33" title="Intelligence"></td>
                     </tr>
                     <tr>
-                        <td id="hero_str">{{BasicStr}} + {{StrInc}}</td>
-                        <td id="hero_agi">{{BasicAgi}} + {{AgiInc}}</td>
-                        <td id="hero_int">{{BasicInt}} + {{IntInc}}</td>
+                        <td id="hero_str">{{hero.basic_str}} + {{hero.str_inc}}</td>
+                        <td id="hero_agi">{{hero.basic_agi}} + {{hero.agi_inc}}</td>
+                        <td id="hero_int">{{hero.basic_int}} + {{hero.int_inc}}</td>
                     </tr>
                     <tr class="hero_attr">
-                        <td><img src="../static/images/33px-Icon_Dmg.png" width="46" height="35" title="Damage"></td>
-                        <td><img src="../static/images/33px-Icon_Armor.png" width="39" height="37" title="Armor"></td>
-                        <td><img src="../static/images/33px-Icon_Mov.png" width="63" height="39" title="Movement"></td>
+                        <td><img src="/static/images/33px-Icon_Dmg.png" width="46" height="35" title="Damage"></td>
+                        <td><img src="/static/images/33px-Icon_Armor.png" width="39" height="37" title="Armor"></td>
+                        <td><img src="/static/images/33px-Icon_Mov.png" width="63" height="39" title="Movement"></td>
                     </tr>
                     <tr>
-                        <td id="hero_dmg">{{MinDamage}} ~ {{MaxDamage}}</td>
-                        <td id="hero_armor">{{Armor}}</td>
-                        <td>{{Movement}}</td>
+                        <td id="hero_dmg">{{hero.min_dmg}} ~ {{hero.max_dmg}}</td>
+                        <td id="hero_armor">{{hero.armor}}</td>
+                        <td>{{hero.movement}}</td>
                     </tr>
                 </table>
             </div>
             <div class="hero_lore span7 offset1">
                 <h2>Lore</h2>
-                <p id='hero_lore_para'>{{Lore}}</p>
+                <p id='hero_lore_para'>{{hero.lore}}</p>
             </div>
 
         </div>
@@ -50,13 +54,14 @@
             <div id="skill_tabs">
                 <ul>
                     {% for skill in skills %}
-                        <li><a href='#skill{{skill.Number}}'>{{skill.SkillName}}</a></li>
+                        <li><a href='#skill{{skill.number}}'>{{skill.name}}</a></li>
                     {% endfor %}
                 </ul>
                 {% for skill in skills %}
-                    <div id='skill{{skill.Number}}' class='skill'
-                    data-hero='{{skill.HeroName}}' data-skill='{{skill.SkillName}}' data-index='{{skill.Number}}'>
-                        <p>{{skill.Description}}</p>
+                    <div id='skill{{skill.number}}' class='skill'
+                    data-hero='{{hero.name}}' data-skill='{{skill.name}}' data-index='{{skill.number}}' data-type='{{skill.activity}}'
+                    data-manacost='{{skill.mana_cost}}' data-cooldown='{{skill.cooldown}}'>
+                        <p>{{skill.description}}</p>
                     </div>
                 {% endfor %}
             </div>
