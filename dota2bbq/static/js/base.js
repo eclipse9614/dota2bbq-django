@@ -4,7 +4,6 @@ $(document).ready(function(){
 		.find('a[href="' + href.toLowerCase() + '"]').parent().addClass('active');
 	$('#manage_btn').click(function(){
 		window.location = '/dota2bbq/manage';
-		return false;
 	});
 });
 

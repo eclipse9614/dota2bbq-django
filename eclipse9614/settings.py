@@ -161,3 +161,6 @@ LOGGING = {
         },
     }
 }
+
+
+LOGIN_URL = '/dota2bbq/'

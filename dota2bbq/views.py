@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -50,23 +50,47 @@ def signoff(request):
     else:
         return redirect('dota2bbq.views.index')
 
-@login_required(login_url = '/dota2bbq/')
+@login_required
 def manage(request):
     heroes = Hero.objects.values('name').order_by('name')
     items = Item.objects.values('name').order_by('name')
     return render(request, 'dota2bbq/manage.html', {'heroes': heroes, 'items': items})
 
+@login_required
+def hero_create(request):
+    if request.method == 'GET':
+        hform = HeroForm()
+        return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform})
+    elif request.method == 'POST':
+        hero = HeroForm(request.POST)
+        if hero.is_valid():
+            hero.save()
+            return redirect('dota2bbq.views.manage')
+        else:
+            return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hero})
 
-@login_required(login_url = '/dota2bbq/')
+
+
+@login_required
 def hero_edit(request, hero_name):
-    hero = Hero.objects.get(name = hero_name)
+    hero = get_object_or_404(Hero, name = hero_name)
     if request.method == 'GET':
         hform = HeroForm(instance = hero)
         return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform})
     elif request.method == 'POST':
         hero = HeroForm(request.POST, instance = hero)
-        hero.save()
-        return redirect('dota2bbq.views.hero', hero_name=hero_name)
+        if hero.is_valid():
+            hero.save()
+            return redirect('dota2bbq.views.manage')
+        else:
+            return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hero})
+
+
+@login_required
+def hero_delete(request, hero_name):
+    hero = get_object_or_404(Hero, name = hero_name)
+    hero.delete()
+    return redirect('dota2bbq.views.manage')
 
 
 def combined_feed(request):
