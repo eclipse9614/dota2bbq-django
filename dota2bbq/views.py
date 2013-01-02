@@ -1,9 +1,10 @@
 import json
 from django.shortcuts import render, redirect
-from dota2bbq.models import Hero, Item
 from django.http import HttpResponse, Http404
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.decorators import login_required
+from dota2bbq.models import Hero, Item, Skill
+from dota2bbq.modelforms import HeroForm
 def index(request):
 	return render(request, 'dota2bbq/index.html')
 
@@ -29,9 +30,9 @@ def hero(request, hero_name):
 
 
 def signin(request):
-    if request.POST:
-        username = request.POST['username']
-        password = request.POST['password']
+    if request.method == 'POST':
+        username = request.POST['username'] if 'username' in request.POST else ''
+        password = request.POST['password'] if 'password' in request.POST else ''
         user = authenticate(username = username, password = password)
         if user and user.is_active:
             login(request, user)
@@ -43,11 +44,29 @@ def signin(request):
 
 
 def signoff(request):
-    if request.POST:
+    if request.method == 'POST':
         logout(request)
         return redirect(request.META['HTTP_REFERER'])
     else:
         return redirect('dota2bbq.views.index')
+
+@login_required(login_url = '/dota2bbq/')
+def manage(request):
+    heroes = Hero.objects.values('name').order_by('name')
+    items = Item.objects.values('name').order_by('name')
+    return render(request, 'dota2bbq/manage.html', {'heroes': heroes, 'items': items})
+
+
+@login_required(login_url = '/dota2bbq/')
+def hero_edit(request, hero_name):
+    hero = Hero.objects.get(name = hero_name)
+    if request.method == 'GET':
+        hform = HeroForm(instance = hero)
+        return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform})
+    elif request.method == 'POST':
+        hero = HeroForm(request.POST, instance = hero)
+        hero.save()
+        return redirect('dota2bbq.views.hero', hero_name=hero_name)
 
 
 def combined_feed(request):

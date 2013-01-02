@@ -23,7 +23,7 @@
             {% if username %}
             <form class="navbar-form pull-right" id='sign_off' action='/dota2bbq/signoff/' method='post'>{% csrf_token %}
                 <span class='label'>Username: {{username}}</span>
-                <button class="button btn" id='edit_btn'>Edit</button>
+                <button class="button btn" id='manage_btn'>Manage</button>
                 <button type="submit" class="btn">Sign Off</button>
                 {% csrf_token %}
             </form>
