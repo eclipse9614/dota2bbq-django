@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html>
 	<body>
-		<form method='post'>
-			<label>Item Index:</label>
-			<input readonly value='{{IID}}' name='IID'>
-			<br>
-			<label>Item Name:</label>
-			<input value='{{Name}}' name='Name'>
-			<br>
-			<label>Item Description:</label>
-			<textarea cols='80' name='Description'>{{Description}}</textarea>
-			<br>
-			<label>Item Cost:</label>
-			<input value='{{Cost}}' name='Cost'>
-			<br>
-			<label>Item Usage:</label>
-			<textarea cols='80' name='Usage'>{{Usage}}</textarea>
-			<br>
-			<label>Item Attributes:</label>
-			<textarea cols='80' name='Attributes'>{{Attributes}}</textarea>
-			<br>
-			<label>Item Recipe:</label>
-			<input size='30' value='{{Recipe}}' name='Recipe'>
+		<form id="input" method="post">{% csrf_token %}
+			<table>
+				{{ItemForm}}
+			</table>
+			<label>Recipe</label>
+			<ul id='components'>
+				{% for component in Recipe %}
+				<li>
+					<span class='component'>{{component}}</span><button type='button' class='del_comp'>Delete this component</button>
+				</li>
+				{% endfor %}
+			</ul>
+			<select id='cur_comp'>
+				{% for item in Items %}
+				<option value='{{item.name}}'>{{item.name}}</option>
+				{% endfor %}
+			</select>
+			<button type='button' id='add_comp'>Add this component to recipe</button>
+			<input type='hidden' name='recipe' id='recipe'>
 			<br>
 			<input type='submit'>
 		</form>
 		<script src="/static/js/jquery-1.8.3.min.js"></script>
-		<script src="/static/js/item_edit.js"></script>
+		<script src='/static/js/item_edit.js'></script>
 	</body>
 </html>

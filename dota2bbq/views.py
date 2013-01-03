@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from dota2bbq.models import Hero, Item, Skill
-from dota2bbq.modelforms import HeroForm
+from dota2bbq.models import Hero, Item, Composition
+from dota2bbq.modelforms import HeroForm, ItemForm
 def index(request):
 	return render(request, 'dota2bbq/index.html')
 
@@ -50,11 +50,13 @@ def signoff(request):
     else:
         return redirect('dota2bbq.views.index')
 
+
 @login_required
 def manage(request):
     heroes = Hero.objects.values('name').order_by('name')
     items = Item.objects.values('name').order_by('name')
     return render(request, 'dota2bbq/manage.html', {'heroes': heroes, 'items': items})
+
 
 @login_required
 def hero_create(request):
@@ -68,7 +70,6 @@ def hero_create(request):
             return redirect('dota2bbq.views.manage')
         else:
             return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hero})
-
 
 
 @login_required
@@ -90,6 +91,70 @@ def hero_edit(request, hero_name):
 def hero_delete(request, hero_name):
     hero = get_object_or_404(Hero, name = hero_name)
     hero.delete()
+    return redirect('dota2bbq.views.manage')
+
+
+@login_required
+def item_create(request):
+    if request.method == 'GET':
+        iform = ItemForm()
+        recipe = []
+        items = Item.objects.values('name').order_by('name')
+        return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
+    elif request.method == 'POST':
+        recipe = request.POST['recipe']
+        if recipe != '':
+            recipe = recipe.split('/')
+        else:
+            recipe = []
+        iform = ItemForm(request.POST)
+        if iform.is_valid():
+            item = iform.save()
+            components = []
+            for component_name in recipe:
+                component = get_object_or_404(Item, name = component_name)
+                components.append(component)
+            for component in components:
+                Composition(whole_id = item.id, component_id = component.id).save()
+            return redirect('dota2bbq.views.manage')
+        else:
+            items = Item.objects.values('name').order_by('name')
+            return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
+
+
+@login_required
+def item_edit(request, item_name):
+    item = get_object_or_404(Item, name = item_name)
+    if request.method == 'GET':
+        iform = ItemForm(instance = item)
+        recipe = [Item.objects.get(id = component.component_id).name for component in item.as_a_whole.all()]
+        items = Item.objects.values('name').order_by('name')
+        return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
+    elif request.method == 'POST':
+        recipe = request.POST['recipe']
+        if recipe != '':
+            recipe = recipe.split('/')
+        else:
+            recipe = []
+        iform = ItemForm(request.POST, instance = item)
+        if iform.is_valid():
+            iform.save()
+            components = []
+            for component_name in recipe:
+                component = get_object_or_404(Item, name = component_name)
+                components.append(component)
+            item.as_a_whole.all().delete()
+            for component in components:
+                Composition(whole_id = item.id, component_id = component.id).save()
+            return redirect('dota2bbq.views.manage')
+        else:
+            return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
+
+
+@login_required
+def item_delete(request, item_name):
+    item = get_object_or_404(Item, name = item_name)
+    item.delete()
     return redirect('dota2bbq.views.manage')
 
 
