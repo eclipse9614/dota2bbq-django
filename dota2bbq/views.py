@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from dota2bbq.models import Hero, Item, Composition
+from django.forms.models import inlineformset_factory
+from dota2bbq.models import Hero, Item, Skill, Composition
 from dota2bbq.modelforms import HeroForm, ItemForm
 def index(request):
 	return render(request, 'dota2bbq/index.html')
@@ -79,12 +80,12 @@ def hero_edit(request, hero_name):
         hform = HeroForm(instance = hero)
         return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform})
     elif request.method == 'POST':
-        hero = HeroForm(request.POST, instance = hero)
-        if hero.is_valid():
-            hero.save()
+        hform = HeroForm(request.POST, instance = hero)
+        if hform.is_valid():
+            hform.save()
             return redirect('dota2bbq.views.manage')
         else:
-            return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hero})
+            return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform})
 
 
 @login_required
@@ -92,6 +93,22 @@ def hero_delete(request, hero_name):
     hero = get_object_or_404(Hero, name = hero_name)
     hero.delete()
     return redirect('dota2bbq.views.manage')
+
+
+@login_required
+def skill_edit(request, hero_name):
+    hero = get_object_or_404(Hero, name = hero_name)
+    SkillFormSet = inlineformset_factory(Hero, Skill, extra = 2)
+    if request.method == 'GET':
+        sforms = SkillFormSet(instance = hero, queryset = hero.skill_set.order_by('number'))
+        return render(request, 'dota2bbq/skill_edit.html', {'SkillForms': sforms})
+    elif request.method == 'POST':
+        sforms = SkillFormSet(request.POST, request.FILES, instance = hero)
+        if sforms.is_valid():
+            sforms.save()
+            return redirect('dota2bbq.views.manage')
+        else:
+            return render(request, 'dota2bbq/skill_edit.html', {'SkillForms': sforms})
 
 
 @login_required

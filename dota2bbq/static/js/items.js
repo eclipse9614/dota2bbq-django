@@ -13,8 +13,8 @@ $(document).ready(function() {
 				.data('id', item.ID)
 				.click(setClick).tooltip({
 					position: {
-						my: "left center",
-						at: "right center"
+						my: "left bottom",
+						at: "right bottom"
 					},
 					content: setTooltip(item)
 				});
