@@ -1,5 +1,6 @@
 # Django settings for eclipse9614 project.
 import os
+import dj_database_url
 SITE_ROOT = os.path.dirname(os.path.dirname(__file__))
 
 DEBUG = True
@@ -21,6 +22,10 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+if os.getcwd() == '/app':
+	DATABASES['default'] =  dj_database_url.config()
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
