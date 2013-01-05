@@ -32,11 +32,26 @@ class Hero(models.Model):
 
 
 class Item(models.Model):
+	# TYPES = (
+	# 	('CON', 'Consumables'),
+	# 	('ATT', "Attributes"),
+	# 	('ARM', "Armaments"),
+	# 	('ARC', 'Arcane'),
+	# 	('COM', 'Common'),
+	# 	('SUP', 'Support'),
+	# 	('CAS', 'Caster'),
+	# 	('WEA', 'Weapons'),
+	# 	('ARMO', 'Armor'),
+	# 	('ART', 'Artifacts'),
+	# 	('SEC', 'Secret Shop'),
+	# )
+
 	name =  models.CharField(max_length = 30)
 	description = models.TextField()
 	cost = models.SmallIntegerField()
 	usage = models.TextField(blank = True)
 	attributes = models.TextField(blank = True)
+	#kind = models.CharField(max_length = 4, choices = TYPES)
 	recipe = models.ManyToManyField('self', blank = True, symmetrical=False, through='Composition')
 
 	def __unicode__(self):
