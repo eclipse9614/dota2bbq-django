@@ -16,7 +16,10 @@ def heroes(request):
 
 
 def items(request):
-    return render(request, 'dota2bbq/items.html')
+    items = Item.objects.exclude(kind = 0).order_by('kind', 'cost').values('id', 'name')
+    kinds = Item.get_kinds_display()[:-1]
+    enqry = [{'kind': kind[1], 'items': items.filter(kind = kind[0])} for kind in kinds]
+    return render(request, 'dota2bbq/items.html', {'item_set': enqry})
 
 
 def hero(request, hero_name):

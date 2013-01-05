@@ -9,8 +9,7 @@ $(document).ready(function() {
 			for(var index in data.Content) {
 				var item = data.Content[index];
 
-				var tip = $(".item > img[src$='" + item.Name + ".png']")
-				.data('id', item.ID)
+				var tip = $(".item > img[data-id='" + item.ID + "']")
 				.click(setClick).tooltip({
 					position: {
 						my: "left bottom",
@@ -20,8 +19,7 @@ $(document).ready(function() {
 				});
 
 				if(hash == item.ID) {
-					tip
-					.css("border-color", "red")
+					tip.css("border-color", "red")
 					.tooltip('open');
 				}
 			}

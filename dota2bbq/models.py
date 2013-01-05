@@ -32,30 +32,35 @@ class Hero(models.Model):
 
 
 class Item(models.Model):
-	# TYPES = (
-	# 	('CON', 'Consumables'),
-	# 	('ATT', "Attributes"),
-	# 	('ARM', "Armaments"),
-	# 	('ARC', 'Arcane'),
-	# 	('COM', 'Common'),
-	# 	('SUP', 'Support'),
-	# 	('CAS', 'Caster'),
-	# 	('WEA', 'Weapons'),
-	# 	('ARMO', 'Armor'),
-	# 	('ART', 'Artifacts'),
-	# 	('SEC', 'Secret Shop'),
-	# )
+	TYPES = (
+		(1, 'Consumables'),
+		(2, "Attributes"),
+		(3, "Armaments"),
+		(4, 'Arcane'),
+		(5, 'Common'),
+		(6, 'Support'),
+		(7, 'Caster'),
+		(8, 'Weapons'),
+		(9, 'Armor'),
+		(10, 'Artifacts'),
+		(11, 'Secret Shop'),
+		(0, 'Hidden'),
+	)
 
 	name =  models.CharField(max_length = 30)
 	description = models.TextField()
 	cost = models.SmallIntegerField()
 	usage = models.TextField(blank = True)
 	attributes = models.TextField(blank = True)
-	#kind = models.CharField(max_length = 4, choices = TYPES)
+	kind = models.PositiveSmallIntegerField(choices = TYPES)
 	recipe = models.ManyToManyField('self', blank = True, symmetrical=False, through='Composition')
 
 	def __unicode__(self):
 		return self.name
+
+	@classmethod
+	def get_kinds_display(cls):
+		return cls.TYPES
 
 
 class Composition(models.Model):
