@@ -13,19 +13,23 @@ $(document).ready(function() {
 	$('#filter_by_faction').change(filter);
 	$('#filter_by_name').keyup(delayNameFiltering);
 	$('#sort_by_name').change(sort);
-	$('.hero_browse')
-	.sortable({containment: '#content'});
+	$('.hero_browse').sortable({
+		containment: '#content'
+	});
 
 	$('#dustbin').droppable({
-        drop : function(event, ui) {
-            $(ui.draggable).remove();
-            $(this).children('h1').show();
-        },
-        over: function( event, ui ) {
+		drop: function(event, ui) {
+			$(ui.draggable).remove();
+			$(this).children('h1').show();
+		},
+		over: function(event, ui) {
 			$(this).children('h1').hide();
-        }
+		},
+		out: function(event, ui) {
+			$(this).children('h1').show();
+		}
 
-    });
+	});
 
 });
 
@@ -41,41 +45,26 @@ function filter() {
 	if(cur_name_prefix === '') {
 		cur_name_prefix = 'ALL';
 	}
-	$('div.hero')
-	.hide()
-	.filter('[data-class*=' + cur_class + ']')
-	.filter('[data-faction*=' + cur_faction + ']')
-	.filter('[data-name*=' + cur_name_prefix + ']')
-	.show('slow');
+	$('div.hero').hide().filter('[data-class*=' + cur_class + ']').filter('[data-faction*=' + cur_faction + ']').filter('[data-name*=' + cur_name_prefix + ']').show('slow');
 
 }
 
 function sort() {
 	var cur_val = parseInt($('#sort_by_name').val(), 10);
 	if(cur_val !== 0) {
-		$('div.hero:visible')
-		.hide()
-		.sort(function(a, b) {
+		$('div.hero:visible').hide().sort(function(a, b) {
 			return cur_val * cmp($(a).data('name'), $(b).data('name'));
-		})
-		.show('slow')
-		.appendTo($('.hero_browse'));
-		
+		}).show('slow').appendTo($('.hero_browse'));
+
 	}
 }
 
-function cmp(a, b)
-{
-	if(a > b)
-	{
+function cmp(a, b) {
+	if(a > b) {
 		return -1;
-	}
-	else if(a == b)
-	{
+	} else if(a == b) {
 		return 0;
-	}
-	else
-	{
+	} else {
 		return 1;
 	}
 }

@@ -4,8 +4,19 @@ $(document).ready(function() {
 	var hero_lore_content = $hero_lore_para.html();
 	if(hero_lore_content.length > 1000) {
 
-		$('#hero_full_story').find('p').html(hero_lore_content);
-		$hero_lore_para.html(hero_lore_content.substr(0, 1000) + '......').attr('title', 'Click to view the whole story').click(function() {
+		$('#hero_full_story')
+		.find('p')
+		.html(hero_lore_content);
+		$hero_lore_para
+		.html(hero_lore_content.substr(0, 1000) + '......')
+		.tooltip(
+			{
+				position: { my: "left center", at: "right center" }
+			}
+		)
+		.attr('title', 'Click lore to open full hero story')
+		.tooltip('open')
+		.click(function() {
 			window.location = window.location + '#hero_full_story';
 			$('#hero_full_story').modal('show');
 		});

@@ -7,7 +7,10 @@ from django.forms.models import inlineformset_factory
 from dota2bbq.models import Hero, Item, Skill, Composition
 from dota2bbq.modelforms import HeroForm, ItemForm
 def index(request):
-	return render(request, 'dota2bbq/index.html')
+    if 'next' in request.GET and request.user.is_authenticated():
+        return redirect(request.GET['next'])
+    else:
+	   return render(request, 'dota2bbq/index.html')
 
 
 def heroes(request):
