@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <form id="input" method="post">
+                {% csrf_token %}
+                {% for SkillBuildForm in SkillBuildForms %}
+                <div style='float: left;'>
+                <table>
+                {{SkillBuildForm}}
+                </table>
+                </div>
+                {% endfor %}
+                {{ SkillBuildForms.management_form }}
+            <input type='submit'>
+        </form>
+    </body>
+</html>

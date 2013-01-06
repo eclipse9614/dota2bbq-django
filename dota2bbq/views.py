@@ -4,8 +4,10 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.forms.models import inlineformset_factory
-from dota2bbq.models import Hero, Item, Skill, Composition
-from dota2bbq.modelforms import HeroForm, ItemForm
+from dota2bbq.models import Hero, Item, Skill, Composition, SkillBuild
+from dota2bbq.modelforms import HeroForm, ItemForm, SkillBuildForm
+
+
 def index(request):
     if 'next' in request.GET and request.user.is_authenticated():
         return redirect(request.GET['next'])
@@ -109,12 +111,28 @@ def skill_edit(request, hero_name):
         sforms = SkillFormSet(instance = hero, queryset = hero.skill_set.order_by('number'))
         return render(request, 'dota2bbq/skill_edit.html', {'SkillForms': sforms})
     elif request.method == 'POST':
-        sforms = SkillFormSet(request.POST, request.FILES, instance = hero)
+        sforms = SkillFormSet(request.POST, instance = hero)
         if sforms.is_valid():
             sforms.save()
             return redirect('dota2bbq.views.manage')
         else:
             return render(request, 'dota2bbq/skill_edit.html', {'SkillForms': sforms})
+
+
+@login_required
+def skill_build(request, hero_name):
+    hero = get_object_or_404(Hero, name = hero_name)
+    SkillBuildFormSet = inlineformset_factory(Hero, SkillBuild, extra = 1, form = SkillBuildForm)
+    if request.method == 'GET':
+        sforms = SkillBuildFormSet(instance = hero, queryset = hero.skillbuild_set.order_by('number'))
+        return render(request, 'dota2bbq/skill_build.html', {'SkillBuildForms': sforms})
+    elif request.method == 'POST':
+        sforms = SkillBuildFormSet(request.POST, instance = hero)
+        if sforms.is_valid():
+            sforms.save()
+            return redirect('dota2bbq.views.manage')
+        else:
+            return render(request, 'dota2bbq/skill_build.html', {'SkillBuildForms': sforms})
 
 
 @login_required

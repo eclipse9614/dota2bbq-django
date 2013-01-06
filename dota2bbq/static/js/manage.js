@@ -6,6 +6,7 @@ $(document).ready(function(){
     $('#hero_edit').click(validateHero);
     $('#hero_delete').click(validateHero);
     $('#skill_edit').click(validateHero);
+    $('#skill_build').click(validateHero);
 
     $('#item_edit').click(validateItem);
     $('#item_delete').click(validateItem);
