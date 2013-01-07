@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'dota2bbq',
     'south',
+	'django_extensions',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -167,3 +168,4 @@ LOGGING = {
 
 
 LOGIN_URL = '/dota2bbq/'
+INTERNAL_IPS = ('127.0.0.1',)

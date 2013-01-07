@@ -18,12 +18,12 @@ class ItemForm(forms.ModelForm):
         model = Item
         exclude = ('recipe', )
 
-class SkillBuildForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(SkillBuildForm, self).__init__(args, kwargs)
-        #self.skillNames = self.instance.hero.skill_set.filter(is_main = True).order_by('number').values('name')
-        self.fields['build'] = forms.CharField(widget = SkillBuildInput(['1', '2']))
-
-    class Meta:
-        model = SkillBuild
+def GenereateSkillBuildForm(mainSkills):
+    class SkillBuildForm(forms.ModelForm):
+        print mainSkills
+        skillChoices = [(skill['id'], skill['name']) for skill in mainSkills]
+        skillChoices.append(('0', 'Stats'))
+        build = forms.CharField(widget = SkillBuildInput(skillChoices))
+        class Meta:
+            model = SkillBuild
+    return SkillBuildForm

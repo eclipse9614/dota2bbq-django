@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.forms.models import inlineformset_factory
 from dota2bbq.models import Hero, Item, Skill, Composition, SkillBuild
-from dota2bbq.modelforms import HeroForm, ItemForm, SkillBuildForm
+from dota2bbq.modelforms import HeroForm, ItemForm, GenereateSkillBuildForm
 
 
 def index(request):
@@ -122,7 +122,8 @@ def skill_edit(request, hero_name):
 @login_required
 def skill_build(request, hero_name):
     hero = get_object_or_404(Hero, name = hero_name)
-    SkillBuildFormSet = inlineformset_factory(Hero, SkillBuild, extra = 1, form = SkillBuildForm)
+    mainSkills = hero.skill_set.filter(is_main = True).order_by('number').values('id', 'name')
+    SkillBuildFormSet = inlineformset_factory(Hero, SkillBuild, extra = 1, form = GenereateSkillBuildForm(mainSkills))
     if request.method == 'GET':
         sforms = SkillBuildFormSet(instance = hero, queryset = hero.skillbuild_set.order_by('number'))
         return render(request, 'dota2bbq/skill_build.html', {'SkillBuildForms': sforms})

@@ -1,3 +1,5 @@
-﻿venv/
-*/migrations/
+﻿*/migrations/
 *.pyc
+.*/
+venv/
+eclipse9614.sublime*
