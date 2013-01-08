@@ -27,6 +27,7 @@ $(document).ready(function() {
 	var hero_name = $("#hero_name").html();
 
 	$("#skill_tabs").tabs();
+	$('#skillbuild_tabs').tabs();
 
 	//skill tooltip based on ajax
 	$(".skill")
@@ -74,4 +75,7 @@ $(document).ready(function() {
 			return display;
 		}
 	});
+
+
+
 });

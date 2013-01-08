@@ -32,7 +32,14 @@ def hero(request, hero_name):
         hero = Hero.objects.get(name = hero_name)
         if hero:
             skills = hero.skill_set.order_by('number')
-            entry = dict(hero = hero, skills = skills)
+            skillbuilds = hero.skillbuild_set.order_by('number')
+            skillmapper = {skill.id:skill.name for skill in skills}
+            skillmapper[0] = u'Stats' #add stats for skill build
+            for skillbuild in skillbuilds:
+                skillbuild.build = skillbuild.build.split(',')
+                skillbuild.build = [skillmapper[int(skill)] for skill in skillbuild.build]
+
+            entry = dict(hero = hero, skills = skills, skillbuilds = skillbuilds)
             return render(request, 'dota2bbq/hero.html', entry)
     except Hero.DoesNotExist:
         raise Http404

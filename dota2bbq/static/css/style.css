@@ -203,6 +203,14 @@ Hero Page
     border-color: black;
 }
 
+.skill_build_table td
+{
+    width: 30px;
+    height: 30px;
+    border: 4px solid white;
+}
+
+
 /*
     Items Page
 */

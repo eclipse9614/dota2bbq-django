@@ -1,4 +1,5 @@
 {% extends "dota2bbq/base.html" %}
+{% load extra_filters %}
 {% block title%}{{hero.name}}{% endblock %}
 {% block content %}
     <div class="container">
@@ -66,8 +67,35 @@
                     </div>
                 {% endfor %}
             </div>
-
         </div>
+
+        <div class='hero_skillbuilds'>
+            <h2>Skill Builds</h2>
+            <div id="skillbuild_tabs">
+                <ul>
+                    {% for skillbuild in skillbuilds %}
+                        <li><a href='#skillbuild{{skillbuild.number}}'>Build {{skillbuild.number}}</a></li>
+                    {% endfor %}
+                </ul>
+                {% for skillbuild in skillbuilds %}
+                    <div id='skillbuild{{skillbuild.number}}'>
+                        <table class='skill_build_table'>
+                            <tr>
+                                {% for skill in skillbuild.build %}
+                                    {% if skill == 'Stats' %}
+                                    <td><img src='/static/images/skills/mini/{{skill|lower}}.png'></td>
+                                    {% else %}
+                                    <td><img src='/static/images/skills/mini/{{hero|lower|spaces2underscores|removeapostrophe}}_{{skill|lower|spaces2underscores|removeapostrophe}}.png'></td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        </table>
+                        
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 
 <div class="modal hide fade" id="hero_full_story">

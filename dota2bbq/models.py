@@ -120,22 +120,18 @@ class SkillBuild(models.Model):
 		#here, check whether the build attribute is right or wrong
 		skills_order = self.build.split(',')
 		#make sure there are 25 skills in the build
-		# print len(skills_order)
+
 		if len(skills_order) != 25:
 			raise ValidationError('A skill build needs 25 steps.')
 
-		# skills_order = [int(step) for step in skills_order]
 		#make sure that in one build, there are ten stats build or not at all(invoker)
 		#0 means stat
-
 		stats_count = skills_order.count('0')
 		#this is the main skills that are upgradable for each hero
 		upgradable_skills = self.hero.skill_set.filter(is_main = True).order_by('number').values_list('id', flat = True)
 
 		skill_counts = [skills_order.count(str(skill)) for skill in upgradable_skills]
-		# print skill_counts.number
 		
-
 		if self.hero.name == 'Invoker':
 			if stats_count != 0:
 				raise ValidationError('Invoker has no stats build')
