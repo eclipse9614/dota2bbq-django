@@ -133,7 +133,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'dota2bbq',
-    'south',
 	'django_extensions',
 )
 

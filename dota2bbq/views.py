@@ -71,14 +71,13 @@ def manage(request):
 def hero_create(request):
     if request.method == 'GET':
         hform = HeroForm()
-        return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform})
     elif request.method == 'POST':
-        hero = HeroForm(request.POST)
-        if hero.is_valid():
-            hero.save()
+        hform = HeroForm(request.POST)
+        if hform.is_valid():
+            hform.save()
             return redirect('dota2bbq.views.manage')
-        else:
-            return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hero})
+
+    return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform}) # this happens when GET or POST fails
 
 
 @login_required
@@ -86,14 +85,12 @@ def hero_edit(request, hero_name):
     hero = get_object_or_404(Hero, name = hero_name)
     if request.method == 'GET':
         hform = HeroForm(instance = hero)
-        return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform})
     elif request.method == 'POST':
         hform = HeroForm(request.POST, instance = hero)
         if hform.is_valid():
             hform.save()
             return redirect('dota2bbq.views.manage')
-        else:
-            return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform})
+    return render(request, 'dota2bbq/hero_edit.html', {'HeroForm': hform}) # this happens when GET or POST fails
 
 
 @login_required
@@ -109,31 +106,28 @@ def skill_edit(request, hero_name):
     SkillFormSet = inlineformset_factory(Hero, Skill, extra = 2)
     if request.method == 'GET':
         sforms = SkillFormSet(instance = hero, queryset = hero.skill_set.order_by('number'))
-        return render(request, 'dota2bbq/skill_edit.html', {'SkillForms': sforms})
     elif request.method == 'POST':
         sforms = SkillFormSet(request.POST, instance = hero)
         if sforms.is_valid():
             sforms.save()
             return redirect('dota2bbq.views.manage')
-        else:
-            return render(request, 'dota2bbq/skill_edit.html', {'SkillForms': sforms})
+
+    return render(request, 'dota2bbq/skill_edit.html', {'SkillForms': sforms}) # this happens when GET or POST fails
 
 
 @login_required
 def skill_build(request, hero_name):
     hero = get_object_or_404(Hero, name = hero_name)
-    mainSkills = hero.skill_set.filter(is_main = True).order_by('number').values('id', 'name')
+    mainSkills = list(hero.skill_set.filter(is_main = True).order_by('number').values_list('id', 'name'))
     SkillBuildFormSet = inlineformset_factory(Hero, SkillBuild, extra = 1, form = GenereateSkillBuildForm(mainSkills))
     if request.method == 'GET':
         sforms = SkillBuildFormSet(instance = hero, queryset = hero.skillbuild_set.order_by('number'))
-        return render(request, 'dota2bbq/skill_build.html', {'SkillBuildForms': sforms})
     elif request.method == 'POST':
         sforms = SkillBuildFormSet(request.POST, instance = hero)
         if sforms.is_valid():
             sforms.save()
             return redirect('dota2bbq.views.manage')
-        else:
-            return render(request, 'dota2bbq/skill_build.html', {'SkillBuildForms': sforms})
+    return render(request, 'dota2bbq/skill_build.html', {'SkillBuildForms': sforms}) # this happens when GET or POST fails
 
 
 @login_required
@@ -141,8 +135,7 @@ def item_create(request):
     if request.method == 'GET':
         iform = ItemForm()
         recipe = []
-        items = Item.objects.values('name').order_by('name')
-        return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
+
     elif request.method == 'POST':
         recipe = request.POST['recipe']
         if recipe != '':
@@ -159,9 +152,10 @@ def item_create(request):
             for component in components:
                 Composition(whole_id = item.id, component_id = component.id).save()
             return redirect('dota2bbq.views.manage')
-        else:
-            items = Item.objects.values('name').order_by('name')
-            return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
+    
+    # this happens when get or post fails
+    items = Item.objects.values('name').order_by('name')
+    return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
 
 
 @login_required
@@ -170,8 +164,6 @@ def item_edit(request, item_name):
     if request.method == 'GET':
         iform = ItemForm(instance = item)
         recipe = [Item.objects.get(id = component.component_id).name for component in item.as_a_whole.all()]
-        items = Item.objects.values('name').order_by('name')
-        return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
     elif request.method == 'POST':
         recipe = request.POST['recipe']
         if recipe != '':
@@ -189,8 +181,9 @@ def item_edit(request, item_name):
             for component in components:
                 Composition(whole_id = item.id, component_id = component.id).save()
             return redirect('dota2bbq.views.manage')
-        else:
-            return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
+
+    items = Item.objects.values('name').order_by('name')
+    return render(request, 'dota2bbq/item_edit.html', {'ItemForm': iform, 'Recipe': recipe, 'Items': items})
 
 
 @login_required

@@ -1,4 +1,5 @@
 from django.db import models
+from dota2bbq.fields import SkillBuildField
 
 class Hero(models.Model):
 	FACTIONS = (
@@ -91,13 +92,23 @@ class Skill(models.Model):
 			pass
 
 
+class SkillBuildModelField(models.Field):
+
+	def formfield(self, **kwargs):
+		return super(SkillBuildModelField, self).formfield(form_class = SkillBuildField, **kwargs)
+
+	def get_internal_type(self):
+		return 'CommaSeparatedIntegerField'
+
+
 
 class SkillBuild(models.Model):
 	hero = models.ForeignKey(Hero)
 	number = models.PositiveSmallIntegerField()
-	build = models.CommaSeparatedIntegerField(max_length = 100)
+	build = SkillBuildModelField(max_length= 100)
 
 	def clean(self):
+		super(SkillBuild, self).clean()
 		from django.core.exceptions import ValidationError
 		#here, check whether the number attribtue is right or wrong
 		try:
@@ -109,18 +120,21 @@ class SkillBuild(models.Model):
 		#here, check whether the build attribute is right or wrong
 		skills_order = self.build.split(',')
 		#make sure there are 25 skills in the build
+		# print len(skills_order)
 		if len(skills_order) != 25:
 			raise ValidationError('A skill build needs 25 steps.')
-		skills_order = [int(step) for step in skills_order]
+
+		# skills_order = [int(step) for step in skills_order]
 		#make sure that in one build, there are ten stats build or not at all(invoker)
 		#0 means stat
-		stats_count = skills_order.count(0)
-		#this is the main skills that are upgradable for each hero
-		upgradable_skills = self.hero.skill_set.filter(is_main = True).order_by('number').values('number')
-		skill_counts = [skills_order.count(skill.number) for skill in upgradable_skills]
 
-		if len(skill_counts) != 4:
-			raise ValidationError('Each Hero has only four upgradable skills')
+		stats_count = skills_order.count('0')
+		#this is the main skills that are upgradable for each hero
+		upgradable_skills = self.hero.skill_set.filter(is_main = True).order_by('number').values_list('id', flat = True)
+
+		skill_counts = [skills_order.count(str(skill)) for skill in upgradable_skills]
+		# print skill_counts.number
+		
 
 		if self.hero.name == 'Invoker':
 			if stats_count != 0:
@@ -133,4 +147,6 @@ class SkillBuild(models.Model):
 			if skill_counts != [4, 4, 4, 3]:
 				raise ValidationError('Wrong skill distribution for this hero')
 
+		#conver the list to comma separated field
+		self.build = ','.join(skills_order)
 
