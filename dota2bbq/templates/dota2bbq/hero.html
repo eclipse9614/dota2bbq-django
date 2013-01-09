@@ -83,9 +83,9 @@
                             <tr>
                                 {% for skill in skillbuild.build %}
                                     {% if skill == 'Stats' %}
-                                    <td><img src='/static/images/skills/mini/{{skill|lower}}.png'></td>
+                                    <td><img src='/static/images/skills/mini/{{skill|lower}}.png' title data-skill="Stats"></td>
                                     {% else %}
-                                    <td><img src='/static/images/skills/mini/{{hero|lower|spaces2underscores|removeapostrophe}}_{{skill|lower|spaces2underscores|removeapostrophe}}.png'></td>
+                                    <td><img src='/static/images/skills/mini/{{hero|lower|spaces2underscores|removeapostrophe}}_{{skill|lower|spaces2underscores|removeapostrophe}}.png' title data-skill="{{skill}}"></td>
                                     {% endif %}
                                 {% endfor %}
                             </tr>

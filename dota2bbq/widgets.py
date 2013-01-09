@@ -30,6 +30,6 @@ class SkillBuildInput(widgets.MultiWidget):
 
     def format_output(self, rendered_widgets):
         rendered = []
-        for i, widget in enumerate(rendered_widgets, start = 1git):
+        for i, widget in enumerate(rendered_widgets, start = 1):
             rendered.append('Level: ' + str(i) + ' ' + widget)
         return u'<br>'.join(rendered)

@@ -48,7 +48,7 @@ $(document).ready(function() {
 			at: "left center",
 			offset: "-20"
 		},
-		content: function(t) {
+		content: function() {
 			var $parent = $(this).parent();
 
 			var display = "";
@@ -76,6 +76,14 @@ $(document).ready(function() {
 		}
 	});
 
-
+	$('#skillbuild_tabs').tooltip({
+		position: {
+			my: "center bottom",
+			at: "center top",
+		},
+		content: function(){
+			return $(this).data('skill')
+		}
+	});
 
 });
