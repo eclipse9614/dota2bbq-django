@@ -17,7 +17,7 @@ $(document).ready(function() {
 		.attr('title', 'Click lore to open full hero story')
 		.tooltip('open')
 		.click(function() {
-			window.location = window.location + '#hero_full_story';
+			//window.location = window.location + '#hero_full_story';
 			$('#hero_full_story').modal('show');
 		});
 	}
