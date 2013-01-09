@@ -1,7 +1,4 @@
 $(document).ready(function(){
-    $('#close_btn').click(function(){
-        window.location = '/dota2bbq/';
-    });
 
     $('#hero_edit').click(validateHero);
     $('#hero_delete').click(validateHero);

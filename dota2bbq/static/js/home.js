@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $.getJSON("/dota2bbq/ajax/combined", function(data) {
+    $.getJSON("/ajax/combined", function(data) {
         $("#search_input").autocomplete({
             minLength: 2,
             delay: 500,

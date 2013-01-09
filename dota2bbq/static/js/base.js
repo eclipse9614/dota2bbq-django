@@ -3,7 +3,7 @@ $(document).ready(function(){
 	$(".nav").children('li').removeClass('active')
 		.find('a[href="' + href.toLowerCase() + '"]').parent().addClass('active');
 	$('#manage_btn').click(function(){
-		window.location = '/dota2bbq/manage';
+		window.location = '/manage';
 	});
 });
 

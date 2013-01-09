@@ -4,7 +4,7 @@ $(document).ready(function() {
 		hash = window.location.hash.substring(1);
 	}
 
-	$.getJSON("/dota2bbq/ajax/items", function(data) {
+	$.getJSON("/ajax/items", function(data) {
 		if(data.Result == "OK") {
 			for(var index in data.Content) {
 				var item = data.Content[index];

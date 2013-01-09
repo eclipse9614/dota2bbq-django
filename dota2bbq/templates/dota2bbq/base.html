@@ -14,21 +14,21 @@
         <div class="navbar-inner">
             <a class='brand'>Dota2 BBQ</a>
             <ul class='nav'>
-                <li><a href="/dota2bbq/">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li class="divider-vertical"></li>
-                <li><a href="/dota2bbq/heroes">Heroes</a></li>
+                <li><a href="/heroes">Heroes</a></li>
                 <li class="divider-vertical"></li>
-                <li><a href="/dota2bbq/items">Items</a></li>
+                <li><a href="/items">Items</a></li>
             </ul>
             {% if username %}
-            <form class="navbar-form pull-right" id='sign_off' action='/dota2bbq/signoff/' method='post'>{% csrf_token %}
+            <form class="navbar-form pull-right" id='sign_off' action='/signoff/' method='post'>{% csrf_token %}
                 <span class='label'>Username: {{username}}</span>
                 <button class="button btn" id='manage_btn' type='button'>Manage</button>
                 <button type="submit" class="btn">Sign Off</button>
                 {% csrf_token %}
             </form>
             {% else %}
-            <form class="navbar-form pull-right" id='sign_in' action='/dota2bbq/signin/' method='post'>{% csrf_token %}
+            <form class="navbar-form pull-right" id='sign_in' action='/signin/' method='post'>{% csrf_token %}
                 {% if login_error %}
                     <span class='label label-important'>{{login_error}}</span>
                 {% endif %}
