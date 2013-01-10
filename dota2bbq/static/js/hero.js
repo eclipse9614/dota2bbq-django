@@ -76,7 +76,8 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#skillbuild_tabs').tooltip({
+	$('#skillbuild_tabs')
+	.tooltip({
 		position: {
 			my: "center bottom",
 			at: "center top",
@@ -84,6 +85,19 @@ $(document).ready(function() {
 		content: function(){
 			return $(this).data('skill')
 		}
+	})
+	.find('img').hover(function(){
+		var skill_name = $(this).data('skill');
+
+		if(skill_name != 'Stats')
+		{
+			var tab = $('.skill[data-skill="' + skill_name + '"]');
+			var index = $('.skill').index(tab);
+			$('#skill_tabs').tabs('option', 'active', index);
+		}
 	});
+
+
+
 
 });
