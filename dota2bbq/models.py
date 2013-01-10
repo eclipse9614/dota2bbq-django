@@ -1,5 +1,5 @@
 from django.db import models
-from dota2bbq.fields import SkillBuildField
+from manager.models import SkillBuildModelField
 
 class Hero(models.Model):
 	FACTIONS = (
@@ -92,13 +92,7 @@ class Skill(models.Model):
 			pass
 
 
-class SkillBuildModelField(models.Field):
 
-	def formfield(self, **kwargs):
-		return super(SkillBuildModelField, self).formfield(form_class = SkillBuildField, **kwargs)
-
-	def get_internal_type(self):
-		return 'CommaSeparatedIntegerField'
 
 
 

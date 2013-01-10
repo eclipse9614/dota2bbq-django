@@ -1,5 +1,5 @@
 from django import forms
-from dota2bbq.widgets import SkillBuildInput
+from manager.widgets import SkillBuildInput
 
 class SkillBuildField(forms.MultiValueField):
 	def __init__(self, choices = [], **kwargs):

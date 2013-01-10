@@ -1,7 +1,7 @@
 import Queue
 from django import forms
 from dota2bbq.models import Hero, Skill, Item, SkillBuild
-from dota2bbq.fields import SkillBuildField
+from manager.fields import SkillBuildField
 
 class HeroForm(forms.ModelForm):
     class Meta:

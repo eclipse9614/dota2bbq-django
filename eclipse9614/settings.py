@@ -133,7 +133,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'dota2bbq',
-	'django_extensions',
+    'manager',
+    'django_extensions',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -166,4 +167,4 @@ LOGGING = {
 }
 
 
-LOGIN_URL = '/dota2bbq/'
+LOGIN_URL = '/'
