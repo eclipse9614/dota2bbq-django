@@ -95,6 +95,10 @@ $(document).ready(function() {
 			var index = $('.skill').index(tab);
 			$('#skill_tabs').tabs('option', 'active', index);
 		}
+		else
+		{
+			$(this).data('skill', 'Stats: Increase all attributes by 2')
+		}
 	});
 
 

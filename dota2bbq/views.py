@@ -1,6 +1,5 @@
-import json
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, Http404
+from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.forms.models import inlineformset_factory
 from dota2bbq.models import Hero, Item, Skill, Composition, SkillBuild
@@ -24,6 +23,10 @@ def items(request):
     kinds = Item.get_kinds_display()[:-1]
     enqry = [{'kind': kind[1], 'items': items.filter(kind = kind[0])} for kind in kinds]
     return render(request, 'dota2bbq/items.html', {'item_set': enqry})
+
+
+def community(request):
+    return render(request, 'dota2bbq/community.html')
 
 
 def hero(request, hero_name):
@@ -65,19 +68,3 @@ def signoff(request):
     else:
         return redirect('dota2bbq.views.index')
 
-def combined_feed(request):
-    query = [{'Class': 'Hero', 'Name': row['name']} for row in Hero.objects.values('name')]
-    query += [{'Class': 'Item', 'ID': row['id'], 'Name': row['name']} for row in Item.objects.values('id', 'name')]
-    return HttpResponse(json.dumps(query))
-
-
-def items_feed(request):
-    items = Item.objects.all()
-    if len(items) == 0:
-        result = {'Result': 'None'}
-    else:
-        result = {'Result': 'OK', "Content":
-        [{'ID': item.id, 'Name': item.name, 'Cost': item.cost, 'Description': item.description,
-        'Usage': item.usage, 'Attributes': item.attributes,
-        'Recipe': [Item.objects.get(id = component.component_id).name for component in item.as_a_whole.all()]} for item in items]}
-    return HttpResponse(json.dumps(result))

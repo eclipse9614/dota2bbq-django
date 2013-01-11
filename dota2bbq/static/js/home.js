@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $.getJSON("/ajax/combined", function(data) {
+    $.getJSON("/feed/combined", function(data) {
         $("#search_input").autocomplete({
             minLength: 2,
             delay: 500,

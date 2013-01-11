@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'dota2bbq',
     'manager',
+    'feed',
     'django_extensions',
 )
 

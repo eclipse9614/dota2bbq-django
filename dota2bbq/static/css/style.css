@@ -22,6 +22,7 @@ h2, h3
     padding-left: 200px;
 }
 
+
 #content
 {
     width: 1100px;
@@ -115,6 +116,45 @@ Heroes Page
     color: white;
 }
 
+
+/*Community Page*/
+.community_sidebar legend
+{
+    color: white;
+}
+
+
+.community_sidebar .add-on
+{
+    width: 50px;
+}
+
+
+#feed_display
+{
+    color: white;
+}
+
+.feed_item h4
+{
+    color: #66CC00; 
+}
+
+.feed_item p
+{
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.feed_item
+{
+    border: 1px ridge gray;
+}
+
+.feed_item .label
+{
+    display: inline;
+}
 
 /*
 Hero Page

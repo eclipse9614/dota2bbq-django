@@ -1,0 +1,40 @@
+{% extends "dota2bbq/base.html" %}
+{% block title %}Dota 2 Community{% endblock %}
+{% block content %}
+	<div class='container'>
+		<div class='row'>
+			<div class='span4 community_sidebar'>
+				<form>
+					<legend>Community Sites</legend>
+					<div class="input-prepend">
+						<span class="add-on">Sites</span>
+						<select id='site_picker'>
+							<option value='0'>Pick one site</option>
+							<option value='http://www.reddit.com/r/Dota2/.rss'>Dota 2 on Reddit</option>
+							<option value='http://blog.dota2.com/feed'>Official Dota 2 Blog</option>
+						</select>
+					</div>
+					<div class='input-prepend'>
+						<span class='add-on'>Name</span>
+						<input type='text' placeholder='Input the new feed name here' required>
+					</div>
+					<div class='input-prepend'>
+						<span class='add-on'>URL</span>
+						<input type='text' placeholder='Input the new feed address here' required>
+					</div>
+					<div class='row'>
+						<button class='btn span2 offset1 button' id='add_botton'>Add</button>
+					</div>
+				</form>
+			</div>
+			<div class='span8'>
+				<div id='feed_display'>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
+{% block scripts %}
+	<script src="/static/js/community.js"></script>
+{% endblock %}
