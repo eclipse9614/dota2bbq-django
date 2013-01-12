@@ -61,6 +61,7 @@ $(document).ready(function(){
 
 						});
 					} else {
+						$('#feed_display').html('');
 						alert(json.Content)
 					}
 				}
@@ -69,3 +70,13 @@ $(document).ready(function(){
 		}
 	});
 });
+
+function addNewFeed(){
+	$('#site_picker')
+	.append($('<option>')
+		.html($('#newFeedName').val())
+		.val($('#newFeedURL').val()));
+	$('#newFeedName').val('');
+	$('#newFeedURL').val('');
+	return false;
+}

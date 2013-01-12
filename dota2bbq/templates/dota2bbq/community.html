@@ -4,7 +4,7 @@
 	<div class='container'>
 		<div class='row'>
 			<div class='span4 community_sidebar'>
-				<form>
+				<form onsubmit='return addNewFeed()'>
 					<legend>Community Sites</legend>
 					<div class="input-prepend">
 						<span class="add-on">Sites</span>
@@ -12,18 +12,19 @@
 							<option value='0'>Pick one site</option>
 							<option value='http://www.reddit.com/r/Dota2/.rss'>Dota 2 on Reddit</option>
 							<option value='http://blog.dota2.com/feed'>Official Dota 2 Blog</option>
+							<option value='http://www.joindota.com/feeds/news'>joinDOTA.com</option>
 						</select>
 					</div>
 					<div class='input-prepend'>
 						<span class='add-on'>Name</span>
-						<input type='text' placeholder='Input the new feed name here' required>
+						<input id='newFeedName' type='text' placeholder='Input the new feed name here' required>
 					</div>
 					<div class='input-prepend'>
 						<span class='add-on'>URL</span>
-						<input type='text' placeholder='Input the new feed address here' required>
+						<input id='newFeedURL' type='text' placeholder='Input the new feed address here' required>
 					</div>
 					<div class='row'>
-						<button class='btn span2 offset1 button' id='add_botton'>Add</button>
+						<button class='btn span2 offset1'>Add</button>
 					</div>
 				</form>
 			</div>
