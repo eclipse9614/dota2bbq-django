@@ -148,7 +148,8 @@ Heroes Page
 
 .feed_item
 {
-    border: 1px ridge gray;
+    border: 5px double orange;
+    padding: 5px;
 }
 
 .feed_item .label
