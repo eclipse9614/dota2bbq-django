@@ -29,6 +29,10 @@ def community(request):
     return render(request, 'dota2bbq/community.html')
 
 
+def about(request):
+    return render(request, 'dota2bbq/about.html')
+
+
 def hero(request, hero_name):
     try:
         hero = Hero.objects.get(name = hero_name)
