@@ -11,10 +11,10 @@ $(document).ready(function() {
 		.html(hero_lore_content.substr(0, 1000) + '......')
 		.tooltip(
 			{
-				position: { my: "left center", at: "right center" }
+				position: { my: "center top", at: "center bottom" }
 			}
 		)
-		.attr('title', 'Click lore to open full hero story')
+		.attr('title', 'Click to view full lore')
 		.tooltip('open')
 		.click(function() {
 			//window.location = window.location + '#hero_full_story';
