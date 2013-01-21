@@ -12,25 +12,21 @@ $(document).ready(function() {
 				var tip = $(".item > img[data-id='" + item.ID + "']")
 				.hover(setHover).tooltip({
 					position: {
-						my: "left bottom",
+						my: "left+5 bottom",
 						at: "right bottom"
 					},
 					content: setTooltip(item)
 				});
 
 				if(hash == item.ID) {
-					tip.animate({
-						'border-color': 'red'
-					});
-					tip.animate({
-						'border-color': 'black'
-					});
-					tip.animate({
-						'border-color': 'red'
-					});
-					tip.animate({
-						'border-color': 'black'
-					});
+					for(var i = 0; i < 20; ++i) {
+						tip.animate({
+							'border-color': 'white'
+						});
+						tip.animate({
+							'border-color': 'black'
+						});
+					}
 					tip.animate({
 						'border-color': 'gray'
 					});
