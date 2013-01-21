@@ -262,6 +262,7 @@ Hero Page
     width: 990px;
     margin: 0 auto;
     overflow: hidden;
+
 }
 
 .item_headers
@@ -293,10 +294,15 @@ Hero Page
 
 .item > img
 {
-    border-width: 2.5px 3px;
-    border-color: rgba(0, 0, 0, 0);
-    border-style: solid;
+    margin: 2px 1.5px;
+    border: 1px solid gray;
 }
+
+.item_selected
+{
+    border-color: red !important;
+}
+
 
 .item_tooltip
 {
@@ -324,3 +330,15 @@ Hero Page
 {
     float: right;
 }
+
+
+
+.ui-tooltip {
+    background: black;
+    border: 2px solid white;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 20px;
+}
+
+

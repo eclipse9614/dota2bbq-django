@@ -10,7 +10,7 @@ $(document).ready(function() {
 				var item = data.Content[index];
 
 				var tip = $(".item > img[data-id='" + item.ID + "']")
-				.click(setClick).tooltip({
+				.hover(setHover).tooltip({
 					position: {
 						my: "left bottom",
 						at: "right bottom"
@@ -19,8 +19,21 @@ $(document).ready(function() {
 				});
 
 				if(hash == item.ID) {
-					tip.css("border-color", "red")
-					.tooltip('open');
+					tip.animate({
+						'border-color': 'red'
+					});
+					tip.animate({
+						'border-color': 'black'
+					});
+					tip.animate({
+						'border-color': 'red'
+					});
+					tip.animate({
+						'border-color': 'black'
+					});
+					tip.animate({
+						'border-color': 'gray'
+					});
 				}
 			}
 
@@ -31,16 +44,17 @@ $(document).ready(function() {
 
 });
 
-function setClick(e) {
-	if($(e.currentTarget).css('border-color') == 'rgb(255, 0, 0)') {
-		$(e.currentTarget).css("border-color", "transparent");
-		window.location.hash = '';
-	} else {
-		$(".item > img").css("border-color", "transparent");
-		$(e.currentTarget).css("border-color", "rgb(255, 0, 0)");
-		window.location.hash = '#' + $(e.currentTarget).data('id');
-	}
 
+function setAutoClose(event, ui) {
+	setTimeout(function(){
+		$(ui).tooltip('close');
+	}, 1000);
+}
+
+function setHover(e) {
+	var $img = $(e.currentTarget);
+	$('.items img').removeClass('item_selected');
+	$img.addClass('item_selected');
 }
 
 

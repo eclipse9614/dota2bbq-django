@@ -1,5 +1,7 @@
-﻿*/migrations/
+*/migrations/
 *.pyc
 .*/
 venv/
 eclipse9614.sublime*
+dota2bbq.sublime-project
+dota2bbq.sublime-workspace
