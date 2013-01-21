@@ -9,42 +9,30 @@ $(document).ready(function() {
 			for(var index in data.Content) {
 				var item = data.Content[index];
 
-				var tip = $(".item > img[data-id='" + item.ID + "']")
-				.hover(setHover).tooltip({
+				var tip = $(".item > img[data-id='" + item.ID + "']").hover(setHover).tooltip({
+					open: fuck,
 					position: {
 						my: "left+5 bottom",
 						at: "right bottom"
 					},
 					content: setTooltip(item)
 				});
-
-				if(hash == item.ID) {
-					for(var i = 0; i < 20; ++i) {
-						tip.animate({
-							'border-color': 'white'
-						});
-						tip.animate({
-							'border-color': 'black'
-						});
-					}
-					tip.animate({
-						'border-color': 'gray'
-					});
-				}
 			}
 
+			if(hash !== null) {
+				var preSelected = $(".item > img[data-id='" + hash + "']");
+				if(preSelected) {
+					preSelected.effect('shake');
+				}
+			}
 		}
 	});
 
 
-
 });
 
-
-function setAutoClose(event, ui) {
-	setTimeout(function(){
-		$(ui).tooltip('close');
-	}, 1000);
+function fuck(event, ui) {
+	console.log('fuck');
 }
 
 function setHover(e) {
@@ -55,27 +43,17 @@ function setHover(e) {
 
 
 function setTooltip(data) {
-	var $display_div = $("<div/>")
-	.addClass("item_tooltip")
-	.append("<span>" + data.Name + "</span>");
+	var $display_div = $("<div/>").addClass("item_tooltip").append("<span>" + data.Name + "</span>");
 
-	var $cost_span = $("<span/>")
-	.append("<img src='/static/images/items/gold.png'>")
-	.append(" " + data.Cost)
-	.addClass("item_cost");
+	var $cost_span = $("<span/>").append("<img src='/static/images/items/gold.png'>").append(" " + data.Cost).addClass("item_cost");
 	$display_div.append($cost_span);
 
 	if(data.Usage !== null) {
-		$("<div/>")
-		.html(data.Usage.replace(/\n/g, '<br>'))
-		.addClass("item_usage")
-		.appendTo($display_div);
+		$("<div/>").html(data.Usage.replace(/\n/g, '<br>')).addClass("item_usage").appendTo($display_div);
 	}
 
 	if(data.Attributes !== null) {
-		var $attrs_div = $("<div />")
-		.html(data.Attributes.replace(/\n/g, '<br>'))
-		.addClass("item_attr");
+		var $attrs_div = $("<div />").html(data.Attributes.replace(/\n/g, '<br>')).addClass("item_attr");
 		$display_div.append($attrs_div);
 	}
 
@@ -88,14 +66,9 @@ function setTooltip(data) {
 		$display_div.append($recipe_div);
 	}
 
-	$("<div/>")
-	.html(data.Description)
-	.addClass("item_description")
-	.appendTo($display_div);
+	$("<div/>").html(data.Description).addClass("item_description").appendTo($display_div);
 
 
 	var $container = $("<div />");
-	return $container
-	.append($display_div)
-	.html();
+	return $container.append($display_div).html();
 }

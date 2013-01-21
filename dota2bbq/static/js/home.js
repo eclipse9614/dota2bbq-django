@@ -24,8 +24,9 @@ $(document).ready(function() {
 
             }
         })
-        .data("autocomplete")._renderItem = function(ul, item) {
-            return $("<li>").data("item.autocomplete", item).append("<a><span style='display: inline-block;width: 220px;'>" + item.Name + "</span>" + item.Class + "</a>").appendTo(ul);
+        .data("ui-autocomplete")._renderItem = function(ul, item) {
+            return $("<li>").data("ui-autocomplete-item", item)
+                .append("<a><span style='display: inline-block;width: 220px;'>" + item.Name + "</span>" + item.Class + "</a>").appendTo(ul);
         };
 
     });
