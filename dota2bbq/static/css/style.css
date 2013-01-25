@@ -197,7 +197,12 @@ Hero Page
 .hero_lore
 {
     float: left;
-    height: inherit;
+}
+
+.hero_lore_height
+{
+    height: 276px;
+    overflow: hidden;
 }
 
 .hero_lore > h2
@@ -211,7 +216,16 @@ Hero Page
     font-style: italic;
     color: #ecedb4;
     font-size: 17px;
-    overflow: hidden;
+    padding: 5px;
+    border: solid 2px black;
+    min-height: 276px;
+}
+
+#hero_lore_btn
+{
+    height: 20px;
+    width: 514px;
+    text-transform: uppercase;
 }
 
 

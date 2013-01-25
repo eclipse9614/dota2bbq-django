@@ -1,27 +1,18 @@
 $(document).ready(function() {
 
-	$hero_lore_para = $('#hero_lore_para');
-	var hero_lore_content = $hero_lore_para.html();
-	if(hero_lore_content.length > 1000) {
-
-		$('#hero_full_story')
-		.find('p')
-		.html(hero_lore_content);
-		$hero_lore_para
-		.html(hero_lore_content.substr(0, 1000) + '......')
-		.tooltip(
-			{
-				position: { my: "center top", at: "center bottom" }
-			}
-		)
-		.attr('title', 'Click to view full lore')
-		.tooltip('open')
-		.click(function() {
-			//window.location = window.location + '#hero_full_story';
-			$('#hero_full_story').modal('show');
-		});
-	}
-
+	//lore expanding
+	$('#hero_lore_btn').click(function() {
+		var $lore = $('.hero_lore > p');
+		$lore.toggleClass('hero_lore_height');
+		if($(this).html() == 'expand')
+		{
+			$(this).html('shrink');
+		}
+		else
+		{
+			$(this).html('expand');
+		}
+	});
 
 	//tabs
 	var hero_name = $("#hero_name").html();
